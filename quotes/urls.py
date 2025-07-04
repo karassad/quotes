@@ -16,7 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.contrib import admin
+from django.urls import path, include  # добавляем include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include('quotes_app.urls')),  # подключаем маршруты из нашего приложения на корневой адрес
 ]
