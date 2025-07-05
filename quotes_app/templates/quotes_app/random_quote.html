@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Случайная цитата</title> <!-- 5. Заголовок окна браузера -->
+    <style>
+        /* CSS-стили для всей страницы */
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            /* сновной блок-контейнер для цитаты и кнопок */
+            max-width: 700px;
+            background-color: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            text-align: center;
+            animation: fadeIn 1s ease; /* плавное появление */
+        }
+        @keyframes fadeIn {
+            /* Анимация появления контейнера при загрузке */
+            from {opacity: 0; transform: translateY(20px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+        h1 {
+            /* Заголовок страницы */
+            margin-top: 0;
+            color: #333;
+            font-size: 2.2em;
+        }
+        blockquote {
+            /* Блок цитаты */
+            font-size: 1.6em;
+            margin: 30px 0;
+            color: #444;
+            line-height: 1.5;
+            position: relative;
+        }
+        blockquote::before, blockquote::after {
+            /* Декоративные кавычки для цитаты */
+            content: '"';
+            color: #bbb;
+            font-size: 2em;
+            vertical-align: top;
+        }
+        .info {
+            /*  Дополнительная информация: источник и просмотры */
+            font-size: 0.95em;
+            color: #666;
+            margin-bottom: 25px;
+        }
+        button {
+            /*  Базовый стиль кнопок лайка и дизлайка */
+            font-size: 1.1em;
+            margin: 10px 20px;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        button.like {
+            background-color: #4CAF50;
+            color: white;
+        }
+        button.like:hover {
+            background-color: #45A049;
+            transform: scale(1.1);
+        }
+        button.dislike {
+            background-color: #f44336;
+            color: white;
+        }
+        button.dislike:hover {
+            background-color: #da190b;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Случайная цитата</h1>
+        <blockquote>
+            {{ quote.text }}
+        </blockquote>
+        <p class="info">Источник: {{ quote.source }}</p>
+        <p class="info">Просмотров: {{ quote.views }}</p>
+
+        <form action="{% url 'like_quote' quote.id %}" method="post" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="like">👍 Лайк ({{ quote.likes }})</button>
+        </form>
+
+        <form action="{% url 'dislike_quote' quote.id %}" method="post" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="dislike">👎 Дизлайк ({{ quote.dislikes }})</button>
+        </form>
+    </div>
+</body>
+</html>
